@@ -1,9 +1,9 @@
 
-require "fate-functions"
+require "tiers.lucky-box"
 
 function RelativePosition(position, x, y)
-	if position[0] then
-		return {position[0]+x,position[1]+y}
+	if position[1] then
+		return {position[1]+x,position[2]+y}
 	else
 		return {position.x+x,position.y+y}
 	end
@@ -11,32 +11,22 @@ end
 
 function EntityTriggered(event)
   local entity = event.entity
-  if event.entity and entity.valid and entity.name == "lucky-box-1" then
-
-  	--[[if event.player_index then
-      for _, player in pairs(game.players) do
-        player.print(game.players[event.player_index].name.." opened a lucky box!")
-      end
-	elseif event.robot then
-      for _, player in pairs(game.players) do
-        player.print("A robot opened a lucky box!")
-      end
-	elseif event.cause then
-      for _, player in pairs(game.players) do
-        player.print("A lucky box was destroyed!") 
-      end
-	else
-	  for _, player in pairs(game.players) do
-        player.print("A lucky box was triggered!")
-      end
-	end]]
+  if event.entity and entity.valid and entity.name == "lucky-box" then
 
 	if event.buffer then
 		event.buffer.clear()
 	end
 
-	local Todo = ChooseRandomOutcome()
-	if Todo then Todo(entity) end
+	local Todo = ChooseRandomLOutcome()
+	if Todo then 
+		if event.player_index then
+			Todo(entity, event.buffer, game.players[event.player_index]) 
+		elseif event.robot then
+			Todo(entity, event.buffer, event.robot) 
+		else
+			Todo(entity, event.buffer) 
+		end
+	end
 
 	if entity.valid and entity.can_be_destroyed() then
 		entity.destroy()

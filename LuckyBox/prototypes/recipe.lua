@@ -2,14 +2,16 @@ data:extend(
 {
   {
     type = "recipe",
-    name = "lucky-box-1",
+    name = "lucky-box",
+    energy_required = 2,
     ingredients =
 	{
 	  {"wooden-chest", 1},
-	  {"copper-cable", 1},
-	  {"iron-gear-wheel", 1},
+	  {"iron-gear-wheel", 3},
+	  {"electronic-circuit", 5},
+	  {"grenade", 2},
 	},
-	result = "lucky-box-1"
+	result = "lucky-box"
   },
 }
 )

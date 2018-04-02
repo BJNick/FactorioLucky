@@ -7,5 +7,5 @@
     "homepage": "",
     "factorio_version": "0.16",
     "dependencies": ["base"],
-    "description": "Adds lucky boxes to the game, which have good or bad outcomes when opened. Good luck!"
+    "description": "Adds Lucky box to the game, which has good or bad outcomes when opened. Good luck!"
 }
