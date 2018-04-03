@@ -68,7 +68,7 @@ end
 function ClearZone(surface, boundaries, except_that)
 	local array = surface.find_entities(boundaries)
 	for _,e in pairs(array) do
-		if e.valid and not e.is_player() and e.type ~= "player" and e.can_be_destroyed() then
+		if e.valid and not e.is_player() and e.type ~= "player" and e.can_be_destroyed() and e.type ~= "item-on-ground" and e.type ~= "logistic-robot" and e.type ~= "construction-robot" then
 			if (not except_that or not except_that.valid or e.position.x ~= except_that.position.x or e.position.y ~= except_that.position.y) and e.prototype.mineable_properties and e.prototype.mineable_properties.products then
 				DropManyLoot(e, nil, e.prototype.mineable_properties.products)
 			end
@@ -90,17 +90,23 @@ function ClearNPlace(surface, entity, except_that)
 		end
 		local created_entity = surface.create_entity(entity)
 		for _,e in pairs(array) do
-			if e.valid and not e.is_player() and e.type ~= "player" and e.can_be_destroyed() then
+			if e.valid and not e.is_player() and e.type ~= "player" and e.can_be_destroyed() and e.type ~= "item-on-ground" and e.type ~= "logistic-robot" and e.type ~= "construction-robot" then
 				if (not except_that or not except_that.valid or e.position.x ~= except_that.position.x or e.position.y ~= except_that.position.y) and e.prototype.mineable_properties and e.prototype.mineable_properties.products then
 					DropManyLoot(e, nil, e.prototype.mineable_properties.products)
 				end
 				if e.valid then
 					e.destroy()
 				end
-			elseif e.valid and e.is_player() or e.type == "player" then
+			elseif e.valid and (e.is_player() or e.type == "player") then
 				e.teleport(surface.find_non_colliding_position("player", e.position, 5, 0.5))
 			end
 		end
 		return created_entity
+	end
+end
+
+function InsertAll(dictionaty, buffer)
+	for k,v in pairs(dictionaty) do
+		buffer.insert({name=k, count=v})
 	end
 end
